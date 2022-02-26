@@ -1,10 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
-import {NgForm} from "@angular/forms";
+import {DynamicDialogRef} from "primeng/dynamicdialog";
 import {Address, User} from "@app/shared/model";
-import {Store} from "@ngrx/store";
-import {State} from "@app/users/state/selectors/user.selector";
-import {UserPageActions} from "@app/users/state/actions";
+
 
 @Component({
     selector: 'app-add-user',
@@ -19,10 +16,7 @@ export class AddUserComponent implements OnInit {
     phoneNumber: string;
     zipcode: string;
 
-    constructor(public ref: DynamicDialogRef,
-                private store: Store<State>,
-                private config: DynamicDialogConfig,) {
-    }
+    constructor(public ref: DynamicDialogRef) {}
 
     ngOnInit(): void {
     }
@@ -41,9 +35,7 @@ export class AddUserComponent implements OnInit {
             address: address,
             email: this.email
         };
-
-        this.store.dispatch(UserPageActions.createUser({user: newUser}));
-        this.ref.close();
+        this.ref.close(newUser);
     }
 
     autoFill(): void {

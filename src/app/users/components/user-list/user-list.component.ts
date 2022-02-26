@@ -5,7 +5,7 @@ import {getCurrentCity, getError, getUsers, State} from '@app/users/state/select
 import {Observable} from 'rxjs';
 import {UserPageActions} from '@app/users/state/actions';
 import {UserService} from '@app/users/services/user.service';
-import {distinctUntilChanged} from 'rxjs/operators';
+import {distinctUntilChanged, filter} from 'rxjs/operators';
 import {DialogService} from "primeng/dynamicdialog";
 import {AddUserComponent} from "@app/users/components/add-user/add-user.component";
 
@@ -21,8 +21,8 @@ export class UserListComponent implements OnInit {
   cities$: Observable<string[]> = this.userService.cities$;
   city$: Observable<string>;
 
-  constructor(private userService: UserService,
-              private store: Store<State>,
+  constructor(private readonly userService: UserService,
+              private readonly store: Store<State>,
               private readonly dialogService: DialogService) {
   }
 
@@ -50,10 +50,8 @@ export class UserListComponent implements OnInit {
       header: 'Edit your profile'
     });
 
-    ref.onClose.subscribe(async (data: User) => {
-      if (data) {
-        // this.toastService.show(EToastSeverities.SUCCESS, 'Successfully created !');
-      }
-    });
+    ref.onClose
+      .pipe(filter((user: User) => !!user))
+      .subscribe(user => this.store.dispatch(UserPageActions.createUser({user})));
   }
 }

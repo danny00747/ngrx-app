@@ -14,9 +14,9 @@
                   *ngFor="let user of vm.users"
                   [ngClass]="{'active': user?.id === vm.selectedUser?.id}"
                   (click)="userSelected(user)">{{ user.name }}
-            <ng-container *ngIf="vm.displayUserId">
+            <span *ngIf="vm.displayUserId">
               ({{ user.id }})
-            </ng-container>
+            </span>
           </button>
         </div>
       </div>
