@@ -1,0 +1,17 @@
+<section *ngIf="vm$ | async as vm">
+  <div class="card" *ngIf="vm.selectedUser">
+    <div class="card-header">
+      Posts
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let post of vm.posts">
+          <p class="font-weight-bold">
+            Title:  {{post.title}}
+          </p>
+          {{post.body}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

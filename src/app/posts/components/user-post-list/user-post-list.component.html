@@ -1,0 +1,47 @@
+<br>
+<div class='row'>
+  <div class='col-md-4'>
+
+    <div class="card" *ngIf="{users: users$ | async, selectedUser: selectedUser$ | async, displayUserId: displayUserId$ | async} as vm">
+
+      <div class="card-header">
+        Users
+      </div>
+
+      <div class="card-body">
+        <div class="list-group">
+          <button class="list-group-item list-group-item-action rounded-0"
+                  *ngFor="let user of vm.users"
+                  [ngClass]="{'active': user?.id === vm.selectedUser?.id}"
+                  (click)="userSelected(user)">{{ user.name }}
+            <ng-container *ngIf="vm.displayUserId">
+              ({{ user.id }})
+            </ng-container>
+          </button>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="row">
+          <div class="form-check col-md-7">
+            <label>
+              <input class="form-check-input"
+                     type="checkbox"
+                     (change)="checkChanged()"
+                     [checked]="vm.displayUserId">
+              Show user id
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="errorMessage$ | async as error"
+         class="alert alert-danger">
+      Error: {{ error }}
+    </div>
+
+  </div>
+  <div class='col-md-8'>
+  <app-post-detail></app-post-detail>
+  </div>
+</div>

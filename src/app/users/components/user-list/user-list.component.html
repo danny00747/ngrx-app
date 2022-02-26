@@ -1,0 +1,52 @@
+<div *ngIf="users$ | async as users" class="card">
+  <div class="card-header font-weight-bold">
+    Users
+  </div>
+
+  <div *ngIf="{cities: cities$ | async, selectedCity: city$ | async} as c" class="card-body">
+    <div class="container">
+      <div class="row justify-content-between">
+        <div class="col-3">
+          <select  class="form-control"
+                  (change)="onSelected($event)">
+            <option value="Display All">- Display All -</option>
+            <option *ngFor="let city of c.cities"
+                    [value]="city" [selected]="city === c.selectedCity">{{ city }}
+            </option>
+          </select>
+        </div>
+        <div class="col-2">
+          <button type="button" (click)="openAddUserDialog()"
+                  class="btn btn-outline-secondary">Add User
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="table-responsive">
+      <table class="table mb-0">
+        <thead>
+        <tr>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>City</th>
+          <th>Phone</th>
+        </tr>
+        </thead>
+        <tbody *ngFor="let user of users">
+        <tr>
+          <td>{{ user.username }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.address.city }}</td>
+          <td>{{ user.phone}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
